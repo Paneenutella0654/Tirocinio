@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<!-- My CSS -->
+	<link rel="stylesheet" href="static\css\main.css">
+	<link rel="icon" href="static/images/top.ico" type="image/x-icon">
+
+	<title>Abbonati</title>
+</head>
+<body>
+
+
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="/" class="brand">
+			<i class='bx bxs-news bx-sm'></i>
+			<span class="text">Seminario</span>
+		</a>
+		<ul class="side-menu top">
+			<li class="active">
+				<a href="/">
+					<i class='bx bxs-dashboard' ></i>
+					<span class="text">Home</span>
+				</a>
+			</li>
+			<li>
+				<a href="/abbonati">
+					<i class='bx bxs-shopping-bag-alt' ></i>
+					<span class="text">Lista Abbonati</span>
+				</a>
+			</li>
+			<li>
+				<a href="/nonpagato_anno">
+					<i class='bx bxs-doughnut-chart' ></i>
+					<span class="text">Lista Diavoletti</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-message-dots' ></i>
+					<span class="text">Message</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-group' ></i>
+					<span class="text">Team</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			<li>
+				{%if current_user.ruolo == 'admin' %}
+				<a href="/settings">
+					<i class='bx bxs-cog' ></i>
+					<span class="text">Settings</span>
+				</a>
+				{%endif%}
+			</li>
+			<li>
+				<a href="/logout" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu' ></i>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+			<a href="#" class="profile">
+				<img id="gravatar-image"  >
+			</a>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<div class="head-title">
+				<div class="left">
+					<h1>Lista Abbonati</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="/">Home</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="/abbonati">Lista Abbonati</a>
+						</li>
+					</ul>
+				</div>
+				<a onclick="aggiungiAbbonato()" class="btn-aggiungi">
+					<i class='bx bx-add-to-queue' ></i>
+					<span class="text">Aggiungi Abbonato</span>
+				</a>
+			</div>
+
+			<ul class="box-info">
+				<li>
+					<i class='bx bxs-calendar-check' ></i>
+					<span class="text">
+						<h3>{{count}}</h3>
+						<p>New Order</p>
+					</span>
+				</li>
+				<li>
+					<i class='bx bxs-dollar-circle' ></i>
+					<span class="text">
+						<h3>€ {{count * 16}}</h3>   <!-- per calcolore i possibili guadagni di sempre -->
+						<p>Total Sales</p>
+					</span>
+				</li>
+			</ul>
+			<div class="table-data ">
+				<div class="order scrollbar" id="style-1">
+					<div class="head">
+						<h3>Abbonati</h3>
+						<div class="search-container">
+					 		<form>
+								<input type="text" id="search-input" name="search-input" placeholder="Inserisci il nome...">
+							</form>
+						</div>
+					</div>
+					<table id="table-abbonati">
+						<thead>
+							<tr>
+								<th>Nome Cognome</th>
+								<th>Via</th>
+								<th>Citta</th>
+							</tr>
+						</thead>
+						{% for abbonati in listaabbonati %}
+						<tbody>
+							<tr>
+								<td>
+									<img src="static\images\user.png" width="20px" height="20px">
+									<a href="dettagli_abbonati?idAbbonato={{abbonati.id}}" style="color: black; text-decoration: none;" <p>{{abbonati.nome}}</p>
+								</td>
+								<td>{{abbonati.via}}</td>
+								<td>{{abbonati.citta}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- CONTENT -->
+	
+
+	<script src="static\javascript\main.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+
+
+	<script>
+		$(document).ready(function() {
+		  $('form').on('submit', function(event) {
+			event.preventDefault();
+			var value = $('#search-input').val().toLowerCase();
+			$('#table-abbonati tbody tr').filter(function() {
+			  $(this).toggle($(this).find('td:first-child').text().toLowerCase().indexOf(value) > -1)
+			});
+		  });
+		});
+	  
+		function aggiungiAbbonato(){
+			Swal.fire({
+				backdrop: 'rgba(249,249,249,0.6)',
+				title: 'Aggiungi Abbonato',
+				html: `<input type="text" id="nome" class="swal2-input" placeholder="Nome">
+				<input type="text" id="via" class="swal2-input" placeholder="Via">
+				<input type="text" id="citta" class="swal2-input" placeholder="citta">`,
+				confirmButtonText: 'Aggiungi',
+				confirmButtonColor: 'rgba(34, 196, 136, 1)',
+				focusConfirm: false,
+				preConfirm: () => {
+				  const nome = Swal.getPopup().querySelector('#nome').value
+				  const via = Swal.getPopup().querySelector('#via').value
+				  const citta = Swal.getPopup().querySelector('#citta').value
+				  const valori = { nome: nome, via: via, citta: citta };
+				  return valori;
+				}
+			  }).then((result) => {
+				if (result.isConfirmed){
+					const nome = result.value.nome
+					const via = result.value.via
+					const citta = result.value.citta
+					fetch('/aggiunta_abbonato',{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						  },
+						body: JSON.stringify(result.value)
+					})
+					.then(() => {
+						location.reload();
+					});
+				}
+			  })
+		}
+		
+	  </script>
+
+	  <script>
+		var userEmail = "{{ current_user.email }}";
+		var emailHash = CryptoJS.MD5(userEmail.toLowerCase()).toString();
+		var gravatarUrl = "https://www.gravatar.com/avatar/" + emailHash + "?s=200";
+		document.getElementById("gravatar-image").src = gravatarUrl;
+	  </script>
+	  
+
+</body>
+</html>

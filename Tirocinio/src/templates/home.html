@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="static/css/home.css">
+  <link rel="icon" href="static/images/top.ico" type="image/x-icon">
+
+  <title>Home Pages</title>
+</head>
+<body>
+ <nav>
+   <div class="logo">Seminario</div>
+   <!-- toggle menu button -->
+   <span class="menubtn" onclick="openNav()">&#9776;</span>
+ 
+   <div class="navLinks">
+     <ul>
+       <li><a href="/">Home</a></li>
+       <li><a href="/about">About</a></li>
+       <li><a href="/contact">Contact</a></li>
+       <button type="button" onclick="LoginRedirect()">Login</button>
+     </ul>
+   </div>
+ </nav>
+   <!-- responsive side navbar -->
+   <div class="sideNav" id="sidenav">
+     <a href="#" class="closeBtn" onclick="closeNav()"> &#10006;</a>
+     <a href="/">Home</a>
+     <a href="/about">About</a>
+     <a href="/contact">Contact</a>
+     <a href="/login"><button type="button">Login</button> </a>
+   </div>
+   
+   <!-- Header content with banner image -->
+   <div class="row">
+     <div class="column1">
+      <h1>IL Seminario</h1>
+      <p>La tua finestra sul paese: il giornalino cittadino che ti tiene informato.</p>
+      <button>RICHIEDILO ORA !!</button>
+     </div>
+     <div class="column2">
+       <img src="https://www.hmablogs.com/wp-content/uploads/2022/06/banner-img.png" alt="banner" width="500px">
+     </div>
+   </div>
+   
+   <!-- javascript to make side menu appear -->
+ <script>
+   function openNav() {
+     document.getElementById("sidenav").style.width = "50%";
+   }
+   function closeNav() {
+     document.getElementById("sidenav").style.width = "0%";
+   }
+   function LoginRedirect() {
+	window.location.href="/login"
+   }
+ </script>
+ 
+</body>
+</html>
