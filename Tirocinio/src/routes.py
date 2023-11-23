@@ -16,5 +16,3 @@ logger.addHandler(handler) # adds handler to the werkzeug WSGI logger
 @app.route("/")
 def homepage():
      return render_template("home.html")
-
-

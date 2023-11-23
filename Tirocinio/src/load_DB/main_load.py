@@ -61,7 +61,7 @@ def RetriveSensori(propietarioid:str):
         listaSensori = []
         for trovato in trovati:
             id2 = str(trovato.get("_id"))
-            name = str(trovato.get("nome"))
+            name = str(trovato.get("name"))
             box_type = str(trovato.get("box_type"))
             exposure = str(trovato.get("exposure"))
             model = str(trovato.get("model"))
@@ -73,3 +73,18 @@ def RetriveSensori(propietarioid:str):
     else:
         listaSensori = []
     return listaSensori 
+
+def SensorebyID (id : str) -> sensore:
+    trovato = sensori.find_one({"_id": ObjectId(id)})
+    if trovato is None:
+        return None
+    id = str(trovato.get("_id"))
+    name = str(trovato.get("name"))
+    box_type = str(trovato.get("box_type"))
+    exposure = str(trovato.get("exposure"))
+    model = str(trovato.get("model"))
+    propietario = str(trovato.get("propietario"))
+    loc = trovato.get("loc")
+    sensor = trovato.get("sensors")
+    new_Sensore = sensore(id,name,box_type,exposure,model,propietario,loc,sensor)
+    return new_Sensore

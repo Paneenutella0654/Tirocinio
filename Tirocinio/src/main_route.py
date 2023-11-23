@@ -1,9 +1,10 @@
 import hashlib
 import datetime
 from src.dbConnection import  utenti, sensori
-"from src import login_manager"
+from src import login_manager
 from src.model import utente, sensore
 from src.load_DB import main_load
+from src.Adapters.OpenMeteoAdapter import OpenMeteoAdapter as OpenMeteo
 
 from bson.objectid import ObjectId
 from datetime import timedelta
@@ -12,13 +13,13 @@ from src import app
 from flask_login import current_user, login_required , login_user, logout_user
 
 @app.route("/listaSensori",methods=["GET", "POST"])
+@login_required
 def listaSensori():
-    user = "655b2d8bc8efd2c7e81c8f7e"
+    user = current_user.id
     listaSensori = main_load.RetriveSensori(user)
-    
     return render_template("listaSensori.html", listaSensori=listaSensori)
 
-"""
+
 @app.route("/login",methods=["GET", "POST"])
 def login():
         successo = False
@@ -29,7 +30,7 @@ def login():
             email = request.form.get("email")
             password = request.form.get("password")
             urlLastPage = request.form.get("next")
-            redirectUrl = "abbonati"
+            redirectUrl = "listaSensori"
             tentativo_login: utente = main_load.UtentebyEmail(email)
             if not tentativo_login:
                         #Utente non Registato
@@ -51,4 +52,26 @@ def login():
                 return render_template("login.html", risposta = risposta)
         else:
             return render_template("login.html", risposta = risposta)
-"""
+
+@login_manager.user_loader
+def load_user(user_id):
+        return main_load.UtentebyID(user_id)
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("homepage"))
+
+@app.route("/dettagliSensore", methods=["POST", "GET"])
+def dettagliSensore():
+    idsensore = request.args.get("idsensore")
+    sensore = main_load.SensorebyID(idsensore)
+    lat = sensore.loc['geometry']['coordinates'][0]
+    lon = sensore.loc['geometry']['coordinates'][1]
+    openmeteo = OpenMeteo(lat,lon)
+    meteo = openmeteo.get_data()
+    return render_template("dettagliSensore.html", sensore=sensore, meteo=meteo)
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('error_pages/404.html'), 404

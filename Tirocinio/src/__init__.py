@@ -8,18 +8,11 @@ from flask_pymongo import PyMongo
 
 
 
-
-
-"""
-   This file represents our app, it is from this file that our application starts,
-   and it is from this file only that we call all the other modules
-   such as routes, or gestioneUtenteControl
-"""
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb+srv://gerardofrino588:95VOEFttqh89tAsS@cluster0.fdg5slg.mongodb.net/DBTirocinio?retryWrites=true&w=majority"
 app.config["COMPRESS_ALGORITHM"] = 'gzip'  # disable default compression of all eligible requests
 app.config['SECRET_KEY'] = 'jshwifhjwieoajhf5847f5ae4eaws'
-"""
+
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 login_manager.login_message_category = "info"
@@ -36,7 +29,7 @@ def admin_required(f):
             return render_template('error_pages/custom_error.html', msg)
 
     return wrap
-""" 
+
 
 from src import routes
 from src import main_route

@@ -33,7 +33,7 @@
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="brand-logo-mini" href="visualizzaTerreni"><img
+        <a class="brand-logo-mini" href="listaSensori"><img
           src="/static/images/enia.png" alt="logo"></a>
         <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button"
           data-toggle="minimize">
@@ -44,7 +44,7 @@
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item  d-none d-lg-flex">
             <a class="nav-link active">
-              Terreni
+              Sensori
             </a>
           </li>
         </ul>
@@ -105,7 +105,7 @@
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle  pl-0 pr-0" data-toggle="dropdown" id="profileDropdown">
               <i class="typcn typcn-user-outline mr-0"></i>
-              <span class="nav-profile-name">Nome propietario</span>
+              <span class="nav-profile-name">{{current_user.nome + ' ' + current_user.cognome}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item" href="/user">
@@ -138,7 +138,7 @@
               </div>
               <div class="sidebar-profile-name">
                 <p class="sidebar-name">
-                  nome propietario
+                  {{current_user.nome + ' ' + current_user.cognome}}
                 </p>
                 <p class="sidebar-designation">
                   Welcome
@@ -147,9 +147,9 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/visualizzaTerreni">
+            <a class="nav-link" href="/listaSensori">
               <i class="typcn typcn-map menu-icon"></i>
-              <span class="menu-title">Terreni</span>
+              <span class="menu-title">Sensori</span>
             </a>
           </li>
 
@@ -160,7 +160,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://unisalerno-my.sharepoint.com/:b:/g/personal/c_laudato2_studenti_unisa_it/EeOm2gosup5OsDa2tEJuCP4Bf5BqF05trtqCHoJ3fRbzGw?e=BnUdig" target="_blank" >
+            <a class="nav-link" href="" target="_blank" >
               <i class="typcn typcn-document-text menu-icon"></i>
               <span class="menu-title">Documentation</span>
             </a>
@@ -173,7 +173,7 @@
         <div class="content-wrapper">
           <div class="row">
             <div class="col-sm-6">
-              <h3 id="nomeTerreno" class="mb-0 font-weight-bold">Benvenuto nome propietario TEMP</h3>
+              <h3 id="nomeSensore" class="mb-0 font-weight-bold">Benvenuto {{current_user.nome}}</h3>
             </div>
           </div>
           <div class="row  mt-3">
@@ -186,15 +186,14 @@
                   </div>
                   <div class="d-flex flex-wrap justify-content-between rounded p-2 mt-2"
                     style="background-color: #92E351;">
-                    <p class="mb-0 text-white" style="font-size:large;">Nome Terreno:</p>
-                    <p class="text-left text-black mb-0">TEMP</p>
+                    <p class="mb-0 text-white" style="font-size:large;">Nome Sensore:</p>
+                    <p class="text-left text-black mb-0">{{sensore.name}}</p>
                   </div>
-                  <div class="d-flex flex-wrap justify-content-between rounded p-2 mt-2"
-                    style="background-color: #92E351;">
-                    <p class="mb-0 text-white" style="font-size:large;">Coltura:</p>
-                    <p class="text-left text-black mb-0 ">TEMP</p>
+                  <div class="d-flex flex-wrap justify-content-between rounded p-2 mt-2" style="background-color: #92E351;">
+                    <p id="paragrafo_{{sensore.id}}" class="mb-0 text-white" style="font-size:large;">Località</p>
+                    <p id="{{sensore.id}}_paragrafo" class="text-left text-black mb-0">Sconoscuta</p>
                   </div>
-                  <a href="dettaglisensore?idsensore={{sensore.id}}"
+                  <a href="dettagliSensore?idsensore={{sensore.id}}"
                     class="d-flex flex-wrap justify-content-center rounded p-2 mt-2 btn btn-success btn-fw"
                     style="border-radius: 5%; background-color: #4DBAF6; border-color: #4DBAF6;">Dettagli</a>
                 </div>
@@ -219,8 +218,8 @@
     </div>
     <footer class="footer" style= "background: border-box">
       <div class="d-sm-flex justify-content-center justify-content-sm-between">
-        <span class="text-center text-sm-left d-block d-sm-inline-block">Progetto IS e GPS <a href="#" target="_blank">EnIA</a> 2023</span>
-        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Sviluppato da: Benedetto Scala, Maria Lombardi, Gerardo Frino, Francesco Maria Puca, Francesco Fattorusso</span>
+        <span class="text-center text-sm-left d-block d-sm-inline-block">Progetto Tirocinio <a href="#" target="_blank">EnIA</a> 2023</span>
+        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Sviluppato da: Gerardo Frino</span>
       </div>
     </footer>
     <!-- container-scroller -->
@@ -251,50 +250,64 @@
       }
 
       var arrayMappe = [];
-      // Definisci un array per salvare le coordinate dei marker
       var coordinateMarker = [];
       
-      // Per ogni id assegna una mappa
       {% for sensore in listaSensori %}
-       arrayMappe.push("{{ sensore.id }}");
+        arrayMappe.push("{{ sensore.id }}");
       
-       // Accedi alle coordinate solo se listaSensori e sensore.loc sono definiti
-       {% if listaSensori and sensore and sensore.loc %}
-        var posizione = JSON.parse('{{ sensore.loc | tojson | safe }}');
-        var lat = posizione.geometry.coordinates[0];
-        var lon = posizione.geometry.coordinates[1];
+        {% if listaSensori and sensore and sensore.loc %}
+          var posizione = JSON.parse('{{ sensore.loc | tojson | safe }}');
+          var lat = posizione.geometry.coordinates[0];
+          var lon = posizione.geometry.coordinates[1];
       
-        // Aggiungo un nuovo oggetto all'array coordinateMarker
-        coordinateMarker.push({
-         lat: lat,
-         lon: lon
-        });
-       {% endif %}
+          coordinateMarker.push({
+            lat: lat,
+            lon: lon
+          });
+      
+          // chiamata per ottenere il nome della città
+          reverseGeocode(lat, lon, "{{ sensore.id }}");
+        {% endif %}
       {% endfor %}
       
+      // Funzione  per ottenere il nome della città
+      function reverseGeocode(lat, lon, sensorId) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+          .then(response => response.json())
+          .then(data => {
+            const countryName = data.address ? data.address.country : "N/A";
+            // Aggiorno il testo del paragrafo con il nome della città
+            var paragrafoId = `${sensorId}_paragrafo`;
+            var paragrafo = document.getElementById(paragrafoId);
+            if (paragrafo) {
+              paragrafo.innerText = countryName;
+            }
+          })
+          .catch(error => console.error("Errore nella richiesta di geocodifica:", error));
+      }
+      
       for (var i = 0; i < arrayMappe.length; i++) {
-       var mappa = document.getElementById(arrayMappe[i]);
-       mappa.className = "mappa";
+        var mappa = document.getElementById(arrayMappe[i]);
+        mappa.className = "mappa";
       
-       console.log(coordinateMarker[i]);
-       // Uso le coordinate salvate nell'array durante il secondo ciclo
-       if (coordinateMarker[i]) {
-        var map = L.map(arrayMappe[i], {
-         zoomControl: false
-        }).setView([coordinateMarker[i].lat, coordinateMarker[i].lon], 13);
+        // Usa le coordinate salvate nell'array durante il secondo ciclo
+        if (coordinateMarker[i]) {
+          var map = L.map(arrayMappe[i], {
+            zoomControl: false
+          }).setView([coordinateMarker[i].lat, coordinateMarker[i].lon], 13);
       
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-         maxZoom: 19,
-         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
+          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          }).addTo(map);
       
-        L.marker([coordinateMarker[i].lat, coordinateMarker[i].lon]).addTo(map);
+          L.marker([coordinateMarker[i].lat, coordinateMarker[i].lon]).addTo(map);
       
-        // Non permettere all'utente di interagire con la mappa
-        map.dragging.disable();
-        map.touchZoom.disable();
-        map.scrollWheelZoom.disable();
-       }
+          // Non permettere all'utente di interagire con la mappa
+          map.dragging.disable();
+          map.touchZoom.disable();
+          map.scrollWheelZoom.disable();
+        }
       }
     </script>
     <!-- End custom js for this page-->
