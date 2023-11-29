@@ -331,6 +331,8 @@
         }
       }
 
+
+      //Codice realtivo alla generazione della mappa generale con marker cliccabili
       var mappa_generale = document.getElementById("mappa_generale");
       mappa_generale.className = "mappa_generale";
       
@@ -348,9 +350,9 @@
 
         marker.bindPopup('<b>' + arrayNomi[i] + '</b>');
         
+        //Codice necessario per rendere cliccabili i marker
         marker.on('popupopen', function (event) {
           var popup = event.popup;
-          // Aggiungi un gestore di eventi per il clic sul contenuto del popup
           popup.getElement().addEventListener('click', function () {
             window.location.href = '/dettagliSensore?idsensore=' + idSensore;
           });
