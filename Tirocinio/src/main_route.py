@@ -75,3 +75,7 @@ def dettagliSensore():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('error_pages/404.html'), 404
+
+@app.route("/mappa")
+def mappa():
+    return render_template("mappa.html")

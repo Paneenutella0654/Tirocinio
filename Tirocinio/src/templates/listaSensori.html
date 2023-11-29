@@ -25,6 +25,10 @@
       height: 300px;
       width: 100%;
     }
+    .mappa_generale {
+      height: 600px;
+      width: 100%;
+    }
   </style>
 </head>
 
@@ -160,9 +164,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="" target="_blank" >
-              <i class="typcn typcn-document-text menu-icon"></i>
-              <span class="menu-title">Documentation</span>
+            <a class="nav-link" href="/mappa" target="_blank" >
+              <i class="typcn typcn-map menu-icon"></i>
+              <span class="menu-title">Mappa Sensori</span>
             </a>
           </li>
         </ul>
@@ -200,6 +204,18 @@
               </div>
             </div>
             {%endfor%}
+          </div>
+
+          <div class="row  mt-3">  
+            <div class="col-xl d-flex grid-margin stretch-card">
+              <div class="card" style="border-radius: 2%;">
+                <div class="card-body">
+                  <div class="d-flex flex-wrap justify-content-between">
+                    <div id="mappa_generale" style="border-radius: 2%; z-index: 1;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>  
           </div>
 
           <!--Spazio bottone + -->
@@ -250,7 +266,12 @@
       }
 
       var arrayMappe = [];
+      var arrayNomi = [];
       var coordinateMarker = [];
+
+      {% for sensore in listaSensori %}
+        arrayNomi.push("{{ sensore.name }}");
+      {% endfor %}
       
       {% for sensore in listaSensori %}
         arrayMappe.push("{{ sensore.id }}");
@@ -309,6 +330,35 @@
           map.scrollWheelZoom.disable();
         }
       }
+
+      var mappa_generale = document.getElementById("mappa_generale");
+      mappa_generale.className = "mappa_generale";
+      
+      var map = L.map('mappa_generale').setView([coordinateMarker[1].lat, coordinateMarker[1].lon], 8);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+      
+      var markersLayer = new L.LayerGroup();
+      
+      for (var i = 0; i < coordinateMarker.length; i++) {
+        var marker = L.marker([coordinateMarker[i].lat, coordinateMarker[i].lon]).addTo(markersLayer);
+        var idSensore = arrayMappe[i];
+
+        marker.bindPopup('<b>' + arrayNomi[i] + '</b>');
+        
+        marker.on('popupopen', function (event) {
+          var popup = event.popup;
+          // Aggiungi un gestore di eventi per il clic sul contenuto del popup
+          popup.getElement().addEventListener('click', function () {
+            window.location.href = '/dettagliSensore?idsensore=' + idSensore;
+          });
+        });
+      }
+      
+      map.addLayer(markersLayer);
+
     </script>
     <!-- End custom js for this page-->
 
