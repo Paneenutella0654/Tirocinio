@@ -262,12 +262,19 @@
     <script>
       function rimandaAggiunta()
       {
-        window.location.href = "/aggiuntaSensori"
+        window.location.href = "/aggiungiSensore"
       }
 
       var arrayMappe = [];
       var arrayNomi = [];
       var coordinateMarker = [];
+
+      var SensorIcon = L.icon({
+        iconUrl: '/static/images/Sensor_ico.png',
+        iconSize: [38, 38],
+        iconAnchor: [19, 18],
+        popupAnchor: [0, 0],
+      });
 
       {% for sensore in listaSensori %}
         arrayNomi.push("{{ sensore.name }}");
@@ -322,7 +329,7 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           }).addTo(map);
       
-          L.marker([coordinateMarker[i].lat, coordinateMarker[i].lon]).addTo(map);
+          L.marker([coordinateMarker[i].lat, coordinateMarker[i].lon], {icon: SensorIcon}).addTo(map);
       
           // Non permettere all'utente di interagire con la mappa
           map.dragging.disable();
@@ -345,7 +352,7 @@
       var markersLayer = new L.LayerGroup();
       
       for (var i = 0; i < coordinateMarker.length; i++) {
-        var marker = L.marker([coordinateMarker[i].lat, coordinateMarker[i].lon]).addTo(markersLayer);
+        var marker = L.marker([coordinateMarker[i].lat, coordinateMarker[i].lon], {icon: SensorIcon}).addTo(markersLayer);
         var idSensore = arrayMappe[i];
 
         marker.bindPopup('<b>' + arrayNomi[i] + '</b>');

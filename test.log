@@ -8355,3 +8355,5 @@
 127.0.0.1 - - [04/Dec/2023 17:30:35] "[33mGET /static/fonts/Roboto/Roboto-Regular.ttf HTTP/1.1[0m" 404 -
  * Detected change in 'c:\\Users\\gerar\\Clone git\\Tirocinio\\Tirocinio\\src\\main_route.py', reloading
  * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 523-329-823

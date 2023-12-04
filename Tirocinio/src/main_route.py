@@ -3,6 +3,7 @@ import datetime
 from src.dbConnection import  utenti, sensori
 from src import login_manager
 from src.model import utente, sensore
+from src import help_functions
 from src.load_DB import main_load
 from src.Adapters.OpenMeteoAdapter import OpenMeteoAdapter as OpenMeteo
 
@@ -76,6 +77,22 @@ def dettagliSensore():
 def page_not_found(error):
     return render_template('error_pages/404.html'), 404
 
-@app.route("/mappa")
-def mappa():
-    return render_template("mappa.html")
+
+@app.route("/aggiungiSensore", methods=['GET', 'POST'])
+@login_required
+def aggiungiSensore():
+    if(request.method != "POST"):
+        return render_template("aggiungiSensore.html")
+    elif request.method == "POST":
+        richiesta = request.get_json()
+        nome = richiesta.get("nomeSensore")
+        posizioneSensore = richiesta.get("posizioneSensore")
+        checkboxes = richiesta.get("sensoriselezionati")
+        user = current_user.id
+        sensoriselezionati = help_functions.creadict(checkboxes)
+        control = main_load.AggiungiSensore(nome,None,None,None,user,posizioneSensore,sensoriselezionati)
+
+        if control != None:
+            return jsonify({"success": True})
+        elif control == None:
+            return jsonify({"success": False})

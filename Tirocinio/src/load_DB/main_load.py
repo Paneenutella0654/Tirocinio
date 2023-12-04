@@ -88,3 +88,8 @@ def SensorebyID (id : str) -> sensore:
     sensor = trovato.get("sensors")
     new_Sensore = sensore(id,name,box_type,exposure,model,propietario,loc,sensor)
     return new_Sensore
+
+def AggiungiSensore(name: str, box_type: str, exposure: str, model: str, propietario: str, loc: dict, sensors: dict):
+          result = sensori.insert_one({"name":name,"box_type":box_type,"exposure":exposure,"model":model,"propietario":propietario,"loc":loc,"sensors":sensors})
+          print(result)
+          return result
