@@ -96,3 +96,38 @@ def aggiungiSensore():
             return jsonify({"success": True})
         elif control == None:
             return jsonify({"success": False})
+        
+@app.route("/eliminaSensore", methods=['GET', 'POST'])
+def eliminaSensore():
+    if(request.method != "POST"):
+        return redirect(url_for("listaSensori"))
+    elif request.method == "POST":
+        print("sono nel post")
+        richiesta = request.get_json()
+        idsensore = richiesta.get("idSensore")
+        control = main_load.EliminaSensore(idsensore)
+        if control != None:
+            return jsonify({"success": True})
+        elif control == None:
+            return jsonify({"success": False})
+        
+@app.route("/modificaSensore", methods=['GET', 'POST'])
+@login_required
+def modificaSensore():
+    if(request.method != "POST"):
+        idsensore = request.args.get('idSensore')
+        sensore = main_load.SensorebyID(idsensore)
+        return render_template("modificaSensore.html", sensore=sensore)
+    elif request.method == "POST":
+        richiesta = request.get_json()
+        idsensore = richiesta.get("idSensore")
+        nome = richiesta.get("nomeSensore")
+        posizioneSensore = richiesta.get("posizioneSensore")
+        checkboxes = richiesta.get("sensoriselezionati")
+        sensoriselezionati = help_functions.creadict(checkboxes)
+        user = current_user.id
+        control = main_load.ModificaSensore(idsensore,nome,None,None,None,user,posizioneSensore,sensoriselezionati)
+        if control != None:
+            return jsonify({"success": True})
+        elif control == None:
+            return jsonify({"success": False})
