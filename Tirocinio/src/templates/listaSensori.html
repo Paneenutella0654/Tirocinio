@@ -29,6 +29,9 @@
       height: 600px;
       width: 100%;
     }
+    .padding_perso{
+      padding-bottom: 30px;
+    }
   </style>
 </head>
 
@@ -219,7 +222,7 @@
           </div>
 
           <!--Spazio bottone + -->
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-center padding_perso">
             <button type="button" style="background-color: #92E351; border-color: #92E351" class="btn btn-success rounded-circle" onclick = "rimandaAggiunta()" ><i class="typcn typcn-plus"></i>
             </button>
           </div>
@@ -298,7 +301,7 @@
         {% endif %}
       {% endfor %}
       
-      // Funzione  per ottenere il nome della città
+      // Funzione  per ottenere il nome della nazione
       function reverseGeocode(lat, lon, sensorId) {
         fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
           .then(response => response.json())

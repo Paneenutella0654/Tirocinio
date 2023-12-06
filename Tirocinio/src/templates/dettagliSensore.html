@@ -80,7 +80,7 @@
                 <ul class="navbar-nav mr-lg-2">
                     <li class="nav-item  d-none d-lg-flex">
                         <a class="nav-link active">
-                            <p id="nomsensore"></p>
+                            <p id="nomsensore">{{sensore.name}}</p>
                         </a>
                     </li>
                 </ul>
@@ -388,71 +388,7 @@
                   </div>
                 </div>
               </div>
-          </div>
-            <div class="row  mt-3">
-              <div class="col-xl-6 d-flex grid-margin stretch-card" id="card-gestione-irrigazione">
-                <div class="card">
-                  <div class="card-body">
-                      <div class="d-flex flex-wrap justify-content-between">
-                            <h4 class="card-title">Gestione Irrigazione</h4>
-                            <button class="btn btn-success btn-primary" id="btnIndietro" style= "background-color:#92E351 ; border-color: #92E351; margin-bottom: 1rem !important;" onclick="tornaIndietro()" hidden>Torna Indietro</button>
-                      </div>
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="list-group" id="listaIrrigatori">
-                            <div id="SensorIcon"></div>
-                            <div class="row mt-3">
-                              <button type="button" class="btn ml-3 btn-primary my-custom-bg-color btn-sm p-1 btn btn-primary"  style= "background-color:#4DBAF6 ; border-color: #4DBAF6; padding: 0.5rem 0.75rem!important;"  onclick="aggiungiIrrigatore()">Aggiungi Irrigatore</button>
-                              <button type="button" class="btn ml-3 btn-primary my-custom-bg-color btn-sm p-1 btn btn-primary" style= "background-color: #4DBAF6 ; border-color: #4DBAF6;  padding: 0.5rem 0.75rem!important;" onclick="visualizzaMappaIrrigatori()">Visualizza Mappa Irrigatori</button>
-                            </div>
-                          </div> 
-                        </div>
-                      </div>
-                      <div class="row" id="visualizzaMappaIrrigatori" hidden>
-                        <div class="col-12">
-                          <div class="row" >
-                            <div class="col-sm-12">
-                                <div id="mapTuttiIrrigatori"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row" id="modificaIrrigatore" hidden>
-                        <div class="col-12">
-                          <div class="row" >
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                  <label for="NomeImpianto">Nome Impianto</label>
-                                  <input type="text" class="form-control" id="NomeImpiantoModificaIrrigatore" aria-describedby="emailHelp" placeholder="Scrivi il nome dell'impianto">
-                                </div>
-                                <div class="form-group" id="mapIrrigazione">
-                                </div>
-                                <button type="submit" class="btn ml-3 btn-primary my-custom-bg-color btn-sm p-1" id = "btnModificaIrrigatore">Modifica</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row" id="aggiungiIrrigatore" hidden>
-                        <div class="col-12">
-                          <div class="row" >
-                            <div class="col-sm-12">
-                              <div >
-                                <div class="form-group">
-                                  <label for="NomeImpianto">Nome Impianto</label>
-                                  <input type="text" class="form-control" id="NomeImpiantoAggiungiIrrigatore" aria-describedby="emailHelp" placeholder="Scrivi il nome dell'impianto">
-                                </div>
-                                <div class="form-group" id="mapAggiungiIrrigatore">
-                                </div>
-                                <button type="submit" class="btn btn-primary" style= "background-color:#4DBAF6 ; border-color: #4DBAF6 " id="btnModificaIrrigatore" onclick="inviaIrrigatoreCreato()">Aggiungi</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-            </div>
-            </div>
+           </div>
           </div>
           
           <!-- content-wrapper ends -->
@@ -488,9 +424,8 @@
     <script src="/static/vendors/chart.js/Chart.min.js"></script>
     <!-- End plugin js for this page -->
     <!-- Custom js for this page-->
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-  integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-  crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
  
     //Mappa per la posizione del sensore
@@ -510,9 +445,7 @@
 
     //Generazione grafico meteo
     var meteoData = {{ meteo|tojson|safe }};
-    console.log(meteoData)
     var arrayGiorniMeteo = AggiustaDatiMeteo(meteoData)
-    console.log(arrayGiorniMeteo)
     creaGraficoMeteo()
 
     //Converto quello ottenuto da openMeteo in un Json
@@ -613,7 +546,6 @@
 
 
       var sensoreData = JSON.parse('{{ sensore.sensors | tojson }}');
-      console.log(sensoreData);
 
       var sensoriDettaglio = document.getElementById("sensoriDettaglio");
       sensoreData.forEach(function (sensore) {
@@ -624,6 +556,53 @@
                                      </div>`;
         sensoriDettaglio.appendChild(elementoSensore);
       });
+
+      
+      var sensore = {id: "{{ sensore.id }}", name: "{{ sensore.name }}"};
+
+
+      function rimandamodifica()
+      {
+        window.location.href = "/modificaSensore?idSensore=" + sensore.id 
+      }
+
+      function rimandaelimina()
+      {
+        Swal.fire({
+          title: "Sei Sicuro?",
+          text: "Non sarà possibile ripristinarlo!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Si, eliminalo"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Effettua la chiamata AJAX alla route /eliminasensore
+            $.ajax({
+              url: '/eliminaSensore',
+              type: 'POST',
+              contentType: 'application/json',  // Imposta il Content-Type a application/json
+              data: JSON.stringify({ idSensore: sensore.id }),  // Converte l'oggetto in formato JSON
+              success: function (data) {
+                // Gestisci la risposta del server se necessario
+                console.log(data);
+        
+                // Mostri un messaggio di successo
+                Swal.fire({
+                  title: "Eliminato!",
+                  text: "Il tuo sensore è stato eliminato",
+                  icon: "success"
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.href = "listaSensori"
+                  }
+                });
+              },
+            });
+          }
+        });
+      }
 
   </script>
 
