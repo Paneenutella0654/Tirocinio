@@ -70,8 +70,11 @@ def dettagliSensore():
     lat = sensore.loc['geometry']['coordinates'][0]
     lon = sensore.loc['geometry']['coordinates'][1]
     openmeteo = OpenMeteo(lat,lon)
-    meteo = openmeteo.get_data()
-    return render_template("dettagliSensore.html", sensore=sensore, meteo=meteo)
+    meteo = openmeteo.get_data_temperatura()
+    umidita = openmeteo.get_data_umidita()
+    pressione = openmeteo.get_data_pressione()
+    vento = openmeteo.get_data_vento()
+    return render_template("dettagliSensore.html", sensore=sensore, meteo=meteo, umidita=umidita, pressione=pressione, vento=vento)
 
 @app.errorhandler(404)
 def page_not_found(error):
