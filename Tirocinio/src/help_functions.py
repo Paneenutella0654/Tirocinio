@@ -8,9 +8,9 @@ sensoritutti = {
       "id": "538da4d6a834155415765eaf"
     },
     {
-      "title": "Suono",
-      "unit": "Pegel",
-      "sensorType": "LM386",
+      "title": "Anemometro",
+      "unit": "m/s",
+      "sensorType": "KWG1",
       "id": "538da4d6a834155415765eb0"
     },
     {
