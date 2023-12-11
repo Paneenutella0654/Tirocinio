@@ -23,19 +23,36 @@
       .card{
         border-radius: 3%;
       }
+
       #datiMeteo{
         width: 100%;
       }
+
       #datiUmidita{
         width: 100%;
       }
+
       #datiPressione{
         width: 100%;
         max-height: 800px;
       }
+
       #datiVento{
         width: 100%;
       }
+
+      #datiUv{
+        width: 100%;
+      }
+
+      #datiInquinamento{
+        width: 100%;
+      }
+
+      #datiPrecipitazioni{
+        width: 100%;
+      }
+
       #map{
         border-radius: 3%;
           height: 500px;
@@ -273,7 +290,7 @@
               </div>
             </div>
           <div class="row  mt-3">
-            <div class="col-xl-6 d-flex grid-margin stretch-card" id = "card-dati-meteo">
+            <div class="col-xl-6 d-none grid-margin stretch-card" id = "card-dati-temperatura">
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-wrap justify-content-between">
@@ -283,66 +300,17 @@
                 </div>
               </div>
             </div>
-            <div class="col-xl-6 d-flex grid-margin stretch-card" id="card-dati-inquinamento">
+            <div class="col-xl-6 d-none grid-margin stretch-card" id="card-dati-inquinamento">
               <div class="card">
-                <div class="card-body">
-                    <h4 id = "datiInquinamento" class="card-title mb-4">Dati inquinamento</h4>
-                        <div id="tabellainq" class="col-sm-12">
-                              <div class="d-flex justify-content-between mb-4">
-                                <div id = "tsinq" class="text-muted"></div> <!--Timestamp inquinamento-->
-                              </div>
-                              <div class="d-flex justify-content-between mb-4">
-                                <div>AQI</div>
-                                <div id = "aqi" class="text-muted"></div>
-                              </div>
-                              <div class="d-flex justify-content-between mb-4">
-                                <div>CO</div>
-                                <div id = "co" class="text-muted"></div>
-                              </div>
-                              <div class="d-flex justify-content-between mb-4">
-                                <div>NO2</div>
-                                <div id = "no2" class="text-muted"></div>
-                              </div>
-                              <div class="d-flex justify-content-between mb-4">
-                                <div>PM1</div>
-                                <div id = "pm1" class="text-muted"></div>
-                              </div>
-                              <div class="d-flex justify-content-between mb-4">
-                                <div>PM2,5</div>
-                                <div id = "pm25" class="text-muted"></div>
-                              </div>
-                              <div class="d-flex justify-content-between mb-4">
-                                <div>PM10</div>
-                                <div id = "pm10" class="text-muted"></div>
-                              </div>
-                          </div>
-                           <div class="btn-group-sm mr-2 mb-4" style = 
-                               "position: absolute;
-                               bottom: 0;"
-                               id = "bottoniInq" role="group">
-                            <button type="button" id="bottoneinq1"  style= "background-color: #92E351; border-color: #92E351" class="btn btn-primary" onclick = "gestisciViewInquinamento(this.id)">Tabella</button>
-                            <button type="button" id="bottoneinq2"  style= "background-color: #92E351; border-color: #92E351" class="btn btn-primary" onclick = "gestisciViewInquinamento(this.id)">Grafico1</button>
-                            <button type="button" id="bottoneinq3"  style= "background-color: #92E351; border-color: #92E351" class="btn btn-primary" onclick = "gestisciViewInquinamento(this.id)">Grafico2</button>
-                            <button type="button" id="bottoneinq4"  style= "background-color: #92E351; border-color: #92E351" class="btn btn-primary" onclick = "gestisciViewInquinamento(this.id)">Storico</button>
-                          </div>
-                          <div class = "d-flex justify-content-end mb-4">
-                            <div hidden class="btn-group" id = "spazioButtonDownload">
-                              <button type="button" id = "dropdownInq" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Download
-                              </button>
-                              <div class="dropdown-menu" aria-labelledby = "dropdownInq"> <!-- Href e link servono per evitare di andare a capo della pagina onclick -->
-                                <a class="dropdown-item" href = "javascript:;" onclick = downloadStoricoInquinamento("csv") link>CSV</a>
-                                <a class="dropdown-item" href = "javascript:;" onclick = downloadStoricoInquinamento("json") link >JSON</a>
-                              </div>
-                            </div>
-                          </div>
-                          
-                    </div>
+                  <div class="card-body">
+                    <h4 id = "datiInquinamento" class="card-title mb-4">Dati Inquinamento</h4>
+                    <div id="datiInquinamento"></div>
                   </div>
+                </div>
                </div>
             </div>
             <div class="row  mt-3">
-              <div class="col-xl-6 d-flex grid-margin stretch-card" id="card-irrigazione-consigliati">
+              <div class="col-xl-6 d-none grid-margin stretch-card" id="card-dati-umidità">
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between">
@@ -350,9 +318,9 @@
                     <div id="datiUmidita"></div>
                   </div>
                 </div>
-                </div>
               </div>
-              <div class="col-xl-6 d-flex grid-margin stretch-card" id="card-irrigazione-consigliati">
+            </div>
+              <div class="col-xl-6 d-none grid-margin stretch-card" id="card-dati-anemometro">
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between">
@@ -364,7 +332,30 @@
               </div>
            </div>
            <div class="row  mt-3">
-            <div class="col-xl d-flex grid-margin stretch-card" id="card-irrigazione-consigliati">
+            <div class="col-xl-6 d-none grid-margin stretch-card" id="card-dati-luminosità">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-wrap justify-content-between">
+                  <h4 class="card-title mb-3">Indici UV</h4>
+                  <div id="datiUv"></div>
+                </div>
+              </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6 d-none grid-margin stretch-card" id="card-dati-precipitazioni">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-wrap justify-content-between">
+                  <h4 class="card-title mb-3">Storico Previsioni Precipitazioni</h4>
+                  <div id="datiPrecipitazioni"></div>
+                </div>
+              </div>
+            </div>
+
+         </div>
+           <div class="row  mt-3">
+            <div class="col-xl d-none grid-margin stretch-card" id="card-dati-atm aria">
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-wrap justify-content-between">
@@ -372,10 +363,10 @@
                   <div id="datiPressione"></div>
                 </div>
               </div>
-              </div>
             </div>
-         </div>
           </div>
+        </div>
+      </div>
           
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
@@ -412,6 +403,26 @@
     <!-- Custom js for this page-->
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+
+      var sensoriPresenti = JSON.parse('{{ sensore.sensors | tojson }}');
+
+      for (var i = 0; i < sensoriPresenti.length; i++) {
+        var titolo = sensoriPresenti[i].title;
+        var idDivDaModificare = "card-dati-" + titolo.toLowerCase();
+        var divDaModificare = document.getElementById(idDivDaModificare);
+
+        if (divDaModificare) {
+          // Il sensore è presente, quindi cambia la classe del div
+          divDaModificare.classList.remove("d-none");
+          divDaModificare.classList.add("d-flex");
+      } else {
+          console.log("Div non trovato per il sensore: " + titolo);
+      }
+      }
+
+    </script>
+
   <script>
  
     //Mappa per la posizione del sensore
@@ -751,8 +762,7 @@
       }
 
 
-
-      //Gestione creazione grafico Umidita
+      //Gestione creazione grafico Vento
       var ventoData = {{ vento|tojson|safe }};
       var arrayGiorniVento = AggiustaDatiVento(ventoData)
       creaGraficoVento()
@@ -858,6 +868,322 @@
 
 
 
+      //Gestione creazione grafico Radiazioni UV
+      var UvData = {{ radiazioniuv|tojson|safe }};
+      var arrayGiorniUv = AggiustaDatiUv(UvData)
+      creaGraficoUv()
+
+
+      function creaGraficoUv()
+      {
+        /*
+        Variabili globali usate:
+        arrayGiorniUv, contiene i dati per ogni giorno di quello che vogliamo inserire.
+        */
+
+        var parent = document.getElementById("datiUv")
+        var canvas = document.createElement("canvas")
+        canvas.id = "lineChartuv"
+        canvas.width = "800"
+        canvas.height = "595" //NON modificare, stessa altezza del testo così non esplode quando clicchiamo.
+        parent.appendChild(canvas)
+        //Genero dinamicamente i dati per il grafico, siccome non so quanti elementi
+        //Array dei colori, abbastanza da non averne bisogno dopo.
+        var colors = ["rgb(44, 175, 254)", "rgb(84, 79, 197)", "rgb(0, 226, 114)", "rgb(0, 255, 204)", "rgb(0, 51, 204)", "rgb(102, 0, 255)", "rgb(255, 51, 204)", "rgb(102, 0, 102)", "rgb(0, 51, 0)"]
+        var labelsData = []   //Asse x
+        var labels = [] //Nomi dei dati
+        var values = []//Valori dei dati: values[0] ha tutti i dati per la prima label.
+        var datasets = [] //Serve per creare il grafico
+        var time = [] //Serve per ripristinare il grafico dopo averlo chiuso.
+        //Riempio labelsData e values
+        for(var c = 0; c < arrayGiorniUv.length; c++)
+        {
+          labelsData.push(arrayGiorniUv[c].time.split("T")[0]) //Prendo solo la data dal timestamp
+          time.push(arrayGiorniUv[c].time)
+          delete arrayGiorniUv[c].time //Lo rimuovo in modo da poter iterare sugli altri campi per prenderne i valori
+          values.push(Object.values(arrayGiorniUv[c]))
+        }
+        //Riempio labels
+        for(var i = 0; i < Object.keys(arrayGiorniUv[0]).length; i++) //Per ogni campo di un oggetto
+        {
+          labels.push(Object.keys(arrayGiorniUv[0])[i])
+        }   
+        //Creo i dataset con i dati compilati, uno per lineChart
+        for(var c = 0; c < labels.length; c++)
+        {
+          var data = []
+          for(var k = 0; k < values.length; k++)
+          {
+            data.push(values[k][c])
+          }
+          //Adesso ho tutti i valori di una label, posso costruirne il dataset
+          var dataset = {
+            label : labels[c],
+            data: data,
+            fill: false,
+            borderColor: colors[c],
+            tension: 0.1
+          }
+          //Costruito, lo inserisco nell'insieme per creare il grafico
+          datasets.push(dataset)
+        }
+        //Finito il parsing dei dati, posso creare finalmente il grafico
+        new Chart(document.getElementById("lineChartuv"), {
+          type: 'line',
+          data: {
+            labels: labelsData,
+            datasets: datasets
+          },
+          options: {
+            title: {
+              display: true,
+              text: "Indici UV"
+            }
+          }
+        })
+      }
+
+
+
+      function AggiustaDatiUv(UvData)  
+      {
+        //Cancello i dati che non mi servono
+        delete UvData.latitude
+        delete UvData.longitude
+        delete UvData.generationtime_ms
+        delete UvData.utc_offset_seconds
+        delete UvData.timezone_abbreviation
+        delete UvData.timezone
+        delete UvData.elevation
+        delete UvData.hourly_units
+        delete UvData.time
+        var temp = []
+        var n = UvData.hourly.time.length
+        for(var i=0; i<n ; i++)
+        {
+          var temp2 = {
+            "Radiazione Diffusa W/m²": UvData.hourly.diffuse_radiation[i],
+            "Radiazione Diretta W/m²": UvData.hourly.direct_radiation[i],
+            "Radiazione Terreste W/m²": UvData.hourly.terrestrial_radiation[i],
+            "Radiazione Onde Cortee W/m²": UvData.hourly.shortwave_radiation[i],
+            "Irraggiamento Diretto W/m²": UvData.hourly.direct_normal_irradiance[i],
+            "Indice Uv": UvData.hourly.uv_index[i],
+            time: ventoData.hourly.time[i],
+          }
+          temp.push(temp2)
+        }
+      return temp
+      }
+
+
+
+      var InquiData = {{ inquinamento|tojson|safe }};
+      var arrayGiorniInqui = AggiustaDatiInqui(InquiData)
+      creaGraficoInqui()
+
+      function creaGraficoInqui()
+      {
+        /*
+        Variabili globali usate:
+        arrayGiorniInqui, contiene i dati per ogni giorno di quello che vogliamo inserire.
+        */
+
+        var parent = document.getElementById("datiInquinamento")
+        var canvas = document.createElement("canvas")
+        canvas.id = "lineChartinquinamento"
+        canvas.width = "800"
+        canvas.height = "595" //NON modificare, stessa altezza del testo così non esplode quando clicchiamo.
+        parent.appendChild(canvas)
+        //Genero dinamicamente i dati per il grafico, siccome non so quanti elementi
+        //Array dei colori, abbastanza da non averne bisogno dopo.
+        var colors = ["rgb(255, 51, 204)", "rgb(102, 0, 102)", "rgb(0, 51, 0)"]
+        var labelsData = []   //Asse x
+        var labels = [] //Nomi dei dati
+        var values = []//Valori dei dati: values[0] ha tutti i dati per la prima label.
+        var datasets = [] //Serve per creare il grafico
+        var time = [] //Serve per ripristinare il grafico dopo averlo chiuso.
+        //Riempio labelsData e values
+        for(var c = 0; c < arrayGiorniInqui.length; c++)
+        {
+          labelsData.push(arrayGiorniInqui[c].time.split("T")[0]) //Prendo solo la data dal timestamp
+          time.push(arrayGiorniInqui[c].time)
+          delete arrayGiorniInqui[c].time //Lo rimuovo in modo da poter iterare sugli altri campi per prenderne i valori
+          values.push(Object.values(arrayGiorniInqui[c]))
+        }
+        //Riempio labels
+        for(var i = 0; i < Object.keys(arrayGiorniInqui[0]).length; i++) //Per ogni campo di un oggetto
+        {
+          labels.push(Object.keys(arrayGiorniInqui[0])[i])
+        }   
+        //Creo i dataset con i dati compilati, uno per lineChart
+        for(var c = 0; c < labels.length; c++)
+        {
+          var data = []
+          for(var k = 0; k < values.length; k++)
+          {
+            data.push(values[k][c])
+          }
+          //Adesso ho tutti i valori di una label, posso costruirne il dataset
+          var dataset = {
+            label : labels[c],
+            data: data,
+            fill: false,
+            borderColor: colors[c],
+            tension: 0.1
+          }
+          //Costruito, lo inserisco nell'insieme per creare il grafico
+          datasets.push(dataset)
+        }
+        //Finito il parsing dei dati, posso creare finalmente il grafico
+        new Chart(document.getElementById("lineChartinquinamento"), {
+          type: 'line',
+          data: {
+            labels: labelsData,
+            datasets: datasets
+          },
+          options: {
+            title: {
+              display: true,
+              text: "Indici Inquinamento"
+            }
+          }
+        })
+      }
+
+
+
+      function AggiustaDatiInqui(InquiData) 
+      {
+        //Cancello i dati che non mi servono
+        delete InquiData.latitude
+        delete InquiData.longitude
+        delete InquiData.generationtime_ms
+        delete InquiData.utc_offset_seconds
+        delete InquiData.timezone_abbreviation
+        delete InquiData.timezone
+        delete InquiData.elevation
+        delete InquiData.hourly_units
+        delete InquiData.time
+        var temp = []
+        var n = InquiData.hourly.time.length
+        for(var i=0; i<n ; i++)
+        {
+          var temp2 = {
+            "Pm 2.5 (µg/m³)": InquiData.hourly.pm2_5[i],
+            "Pm 10 (µg/m³)": InquiData.hourly.pm10[i],
+            "Biossido d'azoto (µg/m³)" : InquiData.hourly.nitrogen_dioxide[i],
+            time: InquiData.hourly.time[i],
+          }
+          temp.push(temp2)
+        }
+      return temp
+      }
+
+
+      var PreciData = {{ precipitazioni|tojson|safe }};
+      var arrayGiorniPrecipi = AggiustaDatiPreci(PreciData)
+      creaGraficoPreci()
+
+      function creaGraficoPreci()
+      {
+        /*
+        Variabili globali usate:
+        arrayGiorniPrecipi, contiene i dati per ogni giorno di quello che vogliamo inserire.
+        */
+
+        var parent = document.getElementById("datiPrecipitazioni")
+        var canvas = document.createElement("canvas")
+        canvas.id = "lineChartprecipitazioni"
+        canvas.width = "800"
+        canvas.height = "595" //NON modificare, stessa altezza del testo così non esplode quando clicchiamo.
+        parent.appendChild(canvas)
+        //Genero dinamicamente i dati per il grafico, siccome non so quanti elementi
+        //Array dei colori, abbastanza da non averne bisogno dopo.
+        var colors_border = ["rgb(255, 122, 150)"]
+        var colors_background = ["rgb(255, 216, 225)"]
+        var labelsData = []   //Asse x
+        var labels = [] //Nomi dei dati
+        var values = []//Valori dei dati: values[0] ha tutti i dati per la prima label.
+        var datasets = [] //Serve per creare il grafico
+        var time = [] //Serve per ripristinare il grafico dopo averlo chiuso.
+        //Riempio labelsData e values
+        for(var c = 0; c < arrayGiorniPrecipi.length; c++)
+        {
+          labelsData.push(arrayGiorniPrecipi[c].time.split("T")[0]) //Prendo solo la data dal timestamp
+          time.push(arrayGiorniPrecipi[c].time)
+          delete arrayGiorniPrecipi[c].time //Lo rimuovo in modo da poter iterare sugli altri campi per prenderne i valori
+          values.push(Object.values(arrayGiorniPrecipi[c]))
+        }
+        //Riempio labels
+        for(var i = 0; i < Object.keys(arrayGiorniPrecipi[0]).length; i++) //Per ogni campo di un oggetto
+        {
+          labels.push(Object.keys(arrayGiorniPrecipi[0])[i])
+        }   
+        //Creo i dataset con i dati compilati, uno per lineChart
+        for(var c = 0; c < labels.length; c++)
+        {
+          var data = []
+          for(var k = 0; k < values.length; k++)
+          {
+            data.push(values[k][c])
+          }
+          //Adesso ho tutti i valori di una label, posso costruirne il dataset
+          var dataset = {
+            label : labels[c],
+            data: data,
+            fill: false,
+            borderColor: colors_border[c],
+            backgroundColor: colors_background[c],
+            tension: 0.1
+          }
+          //Costruito, lo inserisco nell'insieme per creare il grafico
+          datasets.push(dataset)
+        }
+        //Finito il parsing dei dati, posso creare finalmente il grafico
+        new Chart(document.getElementById("lineChartprecipitazioni"), {
+          type: 'bar',
+          data: {
+            labels: labelsData,
+            datasets: datasets
+          },
+          options: {
+            title: {
+              display: true,
+              text: "Storico e Previsioni Precipitazioni"
+            }
+          }
+        })
+      }
+
+
+
+      function AggiustaDatiPreci(PreciData) 
+      {
+        //Cancello i dati che non mi servono
+        delete PreciData.latitude
+        delete PreciData.longitude
+        delete PreciData.generationtime_ms
+        delete PreciData.utc_offset_seconds
+        delete PreciData.timezone_abbreviation
+        delete PreciData.timezone
+        delete PreciData.elevation
+        delete PreciData.hourly_units
+        delete PreciData.time
+        var temp = []
+        var n = PreciData.hourly.time.length
+        for(var i=0; i<n ; i++)
+        {
+          var temp2 = {
+            "Precipitazioni (mm)": PreciData.hourly.precipitation[i],
+            time: PreciData.hourly.time[i],
+          }
+          temp.push(temp2)
+        }
+      return temp
+      }
+
+
+
       var sensoreData = JSON.parse('{{ sensore.sensors | tojson }}');
 
       var sensoriDettaglio = document.getElementById("sensoriDettaglio");
@@ -915,8 +1241,7 @@
             });
           }
         });
-      }
-
+      } 
   </script>
 
   </body>
