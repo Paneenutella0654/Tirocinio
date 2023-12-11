@@ -29,7 +29,19 @@ sensoritutti = {
       "title": "Temperatura",
       "unit": "°C",
       "sensorType": "BMP085",
-      "id": "538da4d6a834155415765eb3"
+      "id": "538da4h8b334155415765eb3"
+    },
+    {
+      "title": "Inquinamento",
+      "unit": "μg/m³",
+      "sensorType": "MQ-2",
+      "id": "538da4d6a216855415765db6"
+    },
+    {
+      "title": "Precipitazioni",
+      "unit": "mm",
+      "sensorType": "S-RGB-M002",
+      "id": "538da4d6g5912355415765dg6"
     }
   ]
 }
