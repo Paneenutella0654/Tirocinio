@@ -100,3 +100,7 @@ def EliminaSensore(id: str):
 def ModificaSensore(id: str, name: str, box_type: str, exposure: str, model: str, propietario: str, loc: dict, sensors: dict):
     result = sensori.update_one({"_id": ObjectId(id)},{"$set":{"name":name,"box_type":box_type,"exposure":exposure,"model":model,"propietario":propietario,"loc":loc,"sensors":sensors}})
     return result
+
+def creaUtente(nome: str, cognome: str, email: str, password: str):
+          result = utenti.insert_one({"nome":nome,"cognome":cognome,"password":password,"email":email})
+          return result

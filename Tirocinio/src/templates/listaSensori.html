@@ -233,7 +233,7 @@
     </div>
     <footer class="footer" style= "background: border-box">
       <div class="d-sm-flex justify-content-center justify-content-sm-between">
-        <span class="text-center text-sm-left d-block d-sm-inline-block">Progetto Tirocinio <a href="#" target="_blank">EnIA</a> 2023</span>
+        <span class="text-center text-sm-left d-block d-sm-inline-block">Progetto Tirocinio <a href="#" target="_blank"></a> 2023</span>
         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Sviluppato da: Gerardo Frino</span>
       </div>
     </footer>
@@ -286,6 +286,7 @@
           var posizione = JSON.parse('{{ sensore.loc | tojson | safe }}');
           var lat = posizione.geometry.coordinates[0];
           var lon = posizione.geometry.coordinates[1];
+
       
           coordinateMarker.push({
             lat: lat,

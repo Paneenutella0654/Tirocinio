@@ -27,6 +27,9 @@ def login():
         risposta ={
             "PasswordNonValida" : False,
         }
+        
+        if request.method != "POST":
+            return render_template("login.html", risposta = risposta)
         if request.method == "POST":
             email = request.form.get("email")
             password = request.form.get("password")
@@ -137,3 +140,23 @@ def modificaSensore():
             return jsonify({"success": True})
         elif control == None:
             return jsonify({"success": False})
+        
+        
+@app.route("/register",methods=["GET", "POST"])
+def register():
+    if(request.method != "POST"):
+        return render_template("register.html")
+    if request.method == "POST":
+        richiesta = request.form
+        email = richiesta.get("email")
+        nome = richiesta.get("nome")
+        cognome = richiesta.get("cognome")
+        password = richiesta.get("password")
+        # Se l'email è già usata il server avviserà il front-end
+        if main_load.UtentebyEmail(email) is not None:
+            msg = "Email gia usata, si prega di inserirne un altra"
+            return render_template("error_pages/custom_error.html", msg = msg)
+        else:
+            main_load.creaUtente(nome,cognome,email,password)
+            return redirect(url_for("login"))
+    return render_template("register.html")
