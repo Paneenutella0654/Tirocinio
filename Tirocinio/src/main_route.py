@@ -74,7 +74,10 @@ def dettagliSensore():
     umidita = openmeteo.get_data_umidita()
     pressione = openmeteo.get_data_pressione()
     vento = openmeteo.get_data_vento()
-    return render_template("dettagliSensore.html", sensore=sensore, meteo=meteo, umidita=umidita, pressione=pressione, vento=vento)
+    radiazioniuv = openmeteo.get_data_uv()
+    inquinamento = openmeteo.get_data_inquinamento()
+    precipitazioni = openmeteo.get_data_precipitazioni()
+    return render_template("dettagliSensore.html", sensore=sensore, meteo=meteo, umidita=umidita, pressione=pressione, vento=vento, radiazioniuv=radiazioniuv, inquinamento=inquinamento, precipitazioni=precipitazioni)
 
 @app.errorhandler(404)
 def page_not_found(error):
