@@ -8,7 +8,7 @@ use_plugin("python.coverage") #non usato al momento
 use_plugin("python.distutils")
 
 
-name = "EnIA"
+name = "Tirocinio"
 default_task = "publish"
 
 
