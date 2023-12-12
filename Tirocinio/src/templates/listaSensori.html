@@ -16,7 +16,7 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="/static/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="/static/images/enia.png" />
+  <link rel="shortcut icon" href="/static/images/Logo.png" />
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
@@ -41,7 +41,7 @@
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="brand-logo-mini" href="listaSensori"><img
-          src="/static/images/enia.png" alt="logo"></a>
+          src="/static/images/Logo.png" alt="logo"></a>
         <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button"
           data-toggle="minimize">
           <span class="typcn typcn-th-menu"></span>
@@ -188,17 +188,17 @@
                     <div id ="{{sensore.id}}"style="border-radius: 5%; z-index: 1;"></div>
                   </div>
                   <div class="d-flex flex-wrap justify-content-between rounded p-2 mt-2"
-                    style="background-color: #92E351;">
+                    style="background-color: #00c39a;">
                     <p class="mb-0 text-white" style="font-size:large;">Nome Sensore:</p>
                     <p class="text-left text-black mb-0">{{sensore.name}}</p>
                   </div>
-                  <div class="d-flex flex-wrap justify-content-between rounded p-2 mt-2" style="background-color: #92E351;">
+                  <div class="d-flex flex-wrap justify-content-between rounded p-2 mt-2" style="background-color: #00c39a;">
                     <p id="paragrafo_{{sensore.id}}" class="mb-0 text-white" style="font-size:large;">Località</p>
                     <p id="{{sensore.id}}_paragrafo" class="text-left text-black mb-0">Sconoscuta</p>
                   </div>
                   <a href="dettagliSensore?idsensore={{sensore.id}}"
                     class="d-flex flex-wrap justify-content-center rounded p-2 mt-2 btn btn-success btn-fw"
-                    style="border-radius: 5%; background-color: #4DBAF6; border-color: #4DBAF6;">Dettagli</a>
+                    style="border-radius: 5%; background-color: #5E747F; border-color: #5E747F;">Dettagli</a>
                 </div>
               </div>
             </div>
@@ -219,7 +219,7 @@
 
           <!--Spazio bottone + -->
           <div class="d-flex justify-content-center padding_perso">
-            <button type="button" style="background-color: #92E351; border-color: #92E351" class="btn btn-success rounded-circle" onclick = "rimandaAggiunta()" ><i class="typcn typcn-plus"></i>
+            <button type="button" style="background-color: #00c39a; border-color: #00c39a" class="btn btn-success rounded-circle" onclick = "rimandaAggiunta()" ><i class="typcn typcn-plus"></i>
             </button>
           </div>
 
@@ -343,7 +343,7 @@
       var mappa_generale = document.getElementById("mappa_generale");
       mappa_generale.className = "mappa_generale";
       
-      var map = L.map('mappa_generale').setView([coordinateMarker[1].lat, coordinateMarker[1].lon], 8);
+      var map = L.map('mappa_generale').setView([coordinateMarker[0].lat, coordinateMarker[0].lon], 8);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -367,6 +367,35 @@
       }
       
       map.addLayer(markersLayer);
+
+
+
+      function scrollaVersoMappaGenerale() {
+        // Sostituisci con l'ID o la classe corretta del contenitore della mappa generale
+        var mappaGenerale = document.getElementById("mappa_generale");
+    
+        // Calcola la posizione verticale assoluta del punto centrale della mappa rispetto al documento
+        var posizioneMappaCentrale = mappaGenerale.getBoundingClientRect().top + window.scrollY + (mappaGenerale.clientHeight / 2);
+    
+        // Calcola la posizione verticale della finestra di visualizzazione
+        var posizioneFinestra = window.innerHeight / 2;
+    
+        // Calcola la posizione verticale finale per centrare il punto centrale della mappa nella finestra
+        var posizioneFinale = posizioneMappaCentrale - posizioneFinestra;
+    
+        // Anima lo scroll della pagina verso la posizione finale
+        window.scrollTo({
+          top: posizioneFinale,
+          behavior: 'smooth'
+        });
+      }
+    
+      // Associa la funzione al clic sulla voce di menu "Mappa Sensori"
+      var linkMappaSensori = document.querySelector('a[href="/mappa"]');
+      linkMappaSensori.addEventListener('click', function (event) {
+        event.preventDefault();
+        scrollaVersoMappaGenerale();
+      });
 
     </script>
     <!-- End custom js for this page-->

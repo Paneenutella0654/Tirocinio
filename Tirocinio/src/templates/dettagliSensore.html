@@ -14,7 +14,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="/static/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="/static/images/enia.png" />
+    <link rel="shortcut icon" href="/static/images/Logo.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
@@ -97,7 +97,7 @@
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                 <a class="brand-logo-mini" href="listaSensori"><img
-                        src="/static/images/enia.png" alt="logo"></a>
+                        src="/static/images/Logo.png" alt="logo"></a>
                 <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button"
                     data-toggle="minimize">
                     <span class="typcn typcn-th-menu"></span>
@@ -238,7 +238,7 @@
               <div class="col-sm-6">
                 <div class="d-flex align-items-center justify-content-md-end">
                   <div class="mb-3 mb-xl-0 pr-1">
-                    <button type="button" class="btn btn-primary"  style= "background-color: #92E351 !important; border-color: #92E351;" onclick = "rimandamodifica()" >Modifica</button>
+                    <button type="button" class="btn btn-primary"  style= "background-color: #00c39a !important; border-color: #00c39a;" onclick = "rimandamodifica()" >Modifica</button>
                   </div>
                   <div class="mb-3 mb-xl-0 pr-1">
                     <button type="button" class="btn btn-primary" onclick = "rimandaelimina()" >Elimina</button>
@@ -294,7 +294,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-wrap justify-content-between">
-                    <h4 class="card-title mb-3">Previsioni Meteo</h4>
+                    <h4 class="card-title mb-3">Storico Meteo</h4>
                     <div id="datiMeteo"></div>
                   </div>
                 </div>
@@ -303,7 +303,7 @@
             <div class="col-xl-6 d-none grid-margin stretch-card" id="card-dati-inquinamento">
               <div class="card">
                   <div class="card-body">
-                    <h4 id = "datiInquinamento" class="card-title mb-4">Dati Inquinamento</h4>
+                    <h4 id = "datiInquinamento" class="card-title mb-4">Storico Indici Inquinamento</h4>
                     <div id="datiInquinamento"></div>
                   </div>
                 </div>
@@ -314,7 +314,7 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between">
-                    <h4 class="card-title mb-3">Previsioni Umidita</h4>
+                    <h4 class="card-title mb-3">Storico Umidita</h4>
                     <div id="datiUmidita"></div>
                   </div>
                 </div>
@@ -324,7 +324,7 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between">
-                    <h4 class="card-title mb-3">Valori Anemometro</h4>
+                    <h4 class="card-title mb-3">Storico Anemometro</h4>
                     <div id="datiVento"></div>
                   </div>
                 </div>
@@ -336,7 +336,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-wrap justify-content-between">
-                  <h4 class="card-title mb-3">Indici UV</h4>
+                  <h4 class="card-title mb-3">Storico Indici UV</h4>
                   <div id="datiUv"></div>
                 </div>
               </div>
@@ -347,7 +347,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-wrap justify-content-between">
-                  <h4 class="card-title mb-3">Storico Previsioni Precipitazioni</h4>
+                  <h4 class="card-title mb-3">Storico Precipitazioni</h4>
                   <div id="datiPrecipitazioni"></div>
                 </div>
               </div>
@@ -359,7 +359,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-wrap justify-content-between">
-                  <h4 class="card-title mb-3">Previsioni Pressione Atmosferica</h4>
+                  <h4 class="card-title mb-3">Storico Pressione Atmosferica</h4>
                   <div id="datiPressione"></div>
                 </div>
               </div>
@@ -417,13 +417,26 @@
           divDaModificare.classList.remove("d-none");
           divDaModificare.classList.add("d-flex");
       } else {
-          console.log("Div non trovato per il sensore: " + titolo);
+          // Il sensore non è presente, quindi nascondi il div
+        var divDaNascondere = document.getElementById(idDivDaModificare);
+        console.log(divDaNascondere);
+        if (divDaNascondere) {
+            divDaNascondere.style.display = "none";
+        }
+        console.log("Div non trovato per il sensore: " + titolo);
       }
       }
 
     </script>
 
   <script>
+
+    var SensorIcon = L.icon({
+      iconUrl: '/static/images/Sensor_ico.png',
+      iconSize: [38, 38],
+      iconAnchor: [19, 18],
+      popupAnchor: [0, 0],
+    });
  
     //Mappa per la posizione del sensore
     var posizione = JSON.parse('{{ sensore.loc.geometry.coordinates | tojson }}');
@@ -436,7 +449,7 @@
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    L.marker([lat,lon]).addTo(map);
+    L.marker([lat,lon],{icon: SensorIcon}).addTo(map);
 
 
 
@@ -535,7 +548,7 @@
           options: {
             title: {
               display: true,
-              text: "Previsioni Meteo"
+              text: "Storico Meteo"
             }
           }
         })
@@ -611,7 +624,7 @@
           options: {
             title: {
               display: true,
-              text: "Previsioni Umidita"
+              text: "Storico Umidita"
             }
           }
         })
@@ -831,7 +844,7 @@
           options: {
             title: {
               display: true,
-              text: "Previsioni Vento"
+              text: "Storico Anamometro"
             }
           }
         })
@@ -937,7 +950,7 @@
           options: {
             title: {
               display: true,
-              text: "Indici UV"
+              text: "Storico Indici UV"
             }
           }
         })
@@ -1044,7 +1057,7 @@
           options: {
             title: {
               display: true,
-              text: "Indici Inquinamento"
+              text: "Storico Indici Inquinamento"
             }
           }
         })
@@ -1149,7 +1162,7 @@
           options: {
             title: {
               display: true,
-              text: "Storico e Previsioni Precipitazioni"
+              text: "Storico Precipitazioni"
             }
           }
         })
