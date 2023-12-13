@@ -68,7 +68,7 @@ def logout():
 
 @app.route("/dettagliSensore", methods=["POST", "GET"])
 def dettagliSensore():
-    idsensore = request.args.get("idsensore")
+    idsensore = request.args.get("idSensore")
     sensore = main_load.SensorebyID(idsensore)
     lat = sensore.loc['geometry']['coordinates'][0]
     lon = sensore.loc['geometry']['coordinates'][1]
