@@ -443,6 +443,10 @@
 
         console.log(checkboxSelezionate);
 
+        var urlParams = new URLSearchParams(window.location.search);
+        var idSensore = urlParams.get('idSensore');
+        var nuovoUrl  = "/dettagliSensore?idSensore=" + idSensore;
+
         fetch('/modificaSensore', {
           method: 'POST',
           headers: {
@@ -466,7 +470,7 @@
               confirmButtonText: 'Ok'
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location.href = "/listaSensori";
+                window.location.href = nuovoUrl;
               }
             })
           }
